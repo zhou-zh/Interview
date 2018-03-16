@@ -6,5 +6,12 @@
 5. 那你解释下什么是svm？
 6. 你了解tensorflow吗，和pytorch有什么区别？
 7. 介绍下tensorflow中name_scope和variable_scope()的区别？
+答：在训练较大的深度学习网络时，需要减少训练参数的数量（具有孪生结构的模型，多任务学习，或是多机并行化训练大数据大模型），因此需要共享变量。另一方面，当训练的模型
+十分庞大和复杂时，如何避免这些变量名和操作名的唯一不重复，同时维护一个清晰的graph变得十分重要和困难，为此TensorFlow使用下面的几个函数来实现：
+tf.Variable(<variable_name>): 创建一个新变量，自动检测命名冲突并自行处理
+tf.get_variable(<variable_name>): 获取一个，当这个变量已存在时，则自动获取，如果不存在，则自动创建一个变量，并且不受name_scope的约束。
+tf.name_scope(<scope_name>)：用于管理一个图里面的各种op, 返回的是一个scope_name命名的context manager。在每一个namespace下面可以定义各种o，实现一种层次化
+的管理，避免各个op之间命名冲突。
+tf.variable_scope(<scope_name>): 一般与tf.name_scope()配合使用，用于管理一个graph中变量的命名，并且可以在一个variable_scope下共享变量。
 9. 一个简单的算法题：写一个函数，将一个数字字符串转化为数字，比如“123”转化为123，用c语言实现
 面试的是大数据组，具体的职位是数据挖掘，主要做搜索和推荐
